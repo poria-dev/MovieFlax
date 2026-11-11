@@ -1,8 +1,10 @@
+
 "use client"
+
 import Getdata from '@/api/getdata'
 import Card from '@/components/Card'
 import TitleMovise from '@/components/TitleMovise'
-import { Grid } from '@mui/material'
+import { Box } from '@mui/material'
 import { useEffect, useState } from 'react'
 
 export default function CardHome({ statusday }) {
@@ -24,22 +26,39 @@ export default function CardHome({ statusday }) {
     return (
         <>
             <TitleMovise fill="Adventure" status={statusday} />
-            <Grid
-                container
-                spacing={2}
-                sx={{
-                    px: { xs: 2, sm: 3, md: 6 },
-                    maxWidth: 1450,
-                    mx: "auto",
-                    justifyContent: "center",
-                }}
-            >
+
+            <Box sx={{
+                display: "flex",
+                gap: { xs: 1.5, sm: 2 },
+                overflowX: "auto",
+                overflowY: "hidden",
+                px: { xs: 2, sm: 3, md: 6 },
+                pb: 2,
+                maxWidth: 1450,
+                mx: "auto",
+                scrollSnapType: "x mandatory",
+                WebkitOverflowScrolling: "touch",
+                scrollbarWidth: "none",
+                "&::-webkit-scrollbar": {
+                    display: "none"
+                },
+                "& > *": {
+                    flex: {
+                        xs: "0 0 calc(50% - 6px)",
+                        sm: "0 0 calc(33.333% - 11px)",
+                        md: "0 0 320px"
+                    },
+                    minWidth: 0
+                }
+            }}>
                 {x.slice(1, 5).map(val => (
-                    <Grid key={val.id} size={{ xs: 6, sm: 4, md: 3 }}>
+                    <Box key={val.id} sx={{
+                        scrollSnapAlign: "start"
+                    }}>
                         <Card movie={val} statusday={statusday} />
-                    </Grid>
+                    </Box>
                 ))}
-            </Grid>
+            </Box>
         </>
     )
 }

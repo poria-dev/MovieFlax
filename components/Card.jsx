@@ -19,6 +19,7 @@ import {
     CalendarMonthRounded,
     AccessTimeRounded
 } from "@mui/icons-material"
+
 import Link from "next/link"
 
 export default function Card({ movie, statusday }) {
@@ -26,34 +27,35 @@ export default function Card({ movie, statusday }) {
     const [favorite, setFavorite] = useState(false)
 
     return (
-        <MuiCard style={{ background: statusday ? "linear-gradient(145deg, #101e32, #080e18)" : "#25364A" }}
+        <MuiCard
+            style={{ background: statusday ? "linear-gradient(145deg, #101e32, #080e18)" : "#25364A" }}
             sx={{
                 width: "100%",
                 maxWidth: 350,
+                flex: "0 0 100%",
                 overflow: "hidden",
-                borderRadius: 4,
+                borderRadius: { xs: 2.5, sm: 4 },
                 position: "relative",
-
                 border: "1px solid rgba(56,189,248,0.15)",
                 color: "white",
                 transition: "0.35s",
+                scrollSnapAlign: "start",
                 "&:hover": {
-                    transform: "translateY(-9px)",
+                    transform: "translateY(-5px)",
                     borderColor: "#38bdf8",
                     boxShadow: "0 15px 40px rgba(14,165,233,0.2)"
                 }
             }}
         >
 
-
-
             {/* Poster */}
 
             <Box sx={{
-                height: 340,
+                height: { xs: 220, sm: 280, md: 340 },
                 position: "relative",
                 overflow: "hidden",
             }}>
+
                 <Link href={movie.imdb_id}>
 
                     {movie.poster && (
@@ -91,18 +93,18 @@ export default function Card({ movie, statusday }) {
                     spacing={0.5}
                     sx={{
                         position: "absolute",
-                        top: 12,
-                        left: 12,
+                        top: 8,
+                        left: 8,
                         background: "rgba(0,0,0,0.75)",
                         backdropFilter: "blur(10px)",
                         borderRadius: 2,
-                        px: 1.2,
-                        py: 0.6
+                        px: 0.8,
+                        py: 0.5
                     }}
                 >
-                    <StarRounded sx={{ color: "#facc15", fontSize: 19 }} />
+                    <StarRounded sx={{ color: "#facc15", fontSize: { xs: 15, sm: 19 } }} />
 
-                    <Typography fontSize={13} fontWeight="bold">
+                    <Typography fontSize={{ xs: 11, sm: 13 }} fontWeight="bold">
                         {movie.imdbRating || "N/A"}
                     </Typography>
                 </Stack>
@@ -113,16 +115,17 @@ export default function Card({ movie, statusday }) {
                     onClick={() => setFavorite(!favorite)}
                     sx={{
                         position: "absolute",
-                        top: 8,
-                        right: 8,
+                        top: 5,
+                        right: 5,
                         color: favorite ? "#fb7185" : "white",
                         background: "rgba(0,0,0,0.65)",
                         "&:hover": {
                             background: "rgba(0,0,0,0.9)"
                         }
                     }}
+                    size="small"
                 >
-                    {favorite ? <Favorite /> : <FavoriteBorder />}
+                    {favorite ? <Favorite fontSize="small" /> : <FavoriteBorder fontSize="small" />}
                 </IconButton>
 
                 {/* Movie Type */}
@@ -132,11 +135,13 @@ export default function Card({ movie, statusday }) {
                     size="small"
                     sx={{
                         position: "absolute",
-                        bottom: 12,
-                        left: 12,
+                        bottom: 8,
+                        left: 8,
+                        height: { xs: 22, sm: 28 },
                         color: "white",
                         background: "rgba(14,165,233,0.85)",
-                        fontWeight: "bold"
+                        fontWeight: "bold",
+                        fontSize: { xs: 9, sm: 12 }
                     }}
                 />
 
@@ -144,11 +149,11 @@ export default function Card({ movie, statusday }) {
 
             {/* Movie Information */}
 
-            <CardContent sx={{ p: 2 }}>
+            <CardContent sx={{ p: { xs: 1, sm: 2 } }}>
 
                 <Typography
                     fontWeight="bold"
-                    fontSize={17}
+                    fontSize={{ xs: 12, sm: 15, md: 17 }}
                     noWrap
                     sx={{ mb: 1, fontFamily: "var(--font-manrope)" }}
                 >
@@ -157,16 +162,17 @@ export default function Card({ movie, statusday }) {
 
                 {/* Genres */}
 
-                <Stack direction="row" gap={0.7} flexWrap="wrap" sx={{ mb: 1.5 }}>
+                <Stack direction="row" gap={0.5} flexWrap="wrap" sx={{ mb: 1 }}>
                     {movie.genres?.slice(0, 2).map(genre => (
                         <Chip
                             key={genre}
                             label={genre}
                             size="small"
                             sx={{
+                                height: { xs: 19, sm: 24 },
                                 color: "#7dd3fc",
                                 background: "rgba(56,189,248,0.1)",
-                                fontSize: 10
+                                fontSize: { xs: 8, sm: 10 }
                             }}
                         />
                     ))}
@@ -174,19 +180,26 @@ export default function Card({ movie, statusday }) {
 
                 {/* Year and Duration */}
 
-                <Stack direction="row" alignItems="center" gap={2} sx={{ mb: 1.5 }}>
+                <Stack
+                    direction={{ xs: "column", sm: "row" }}
+                    alignItems="flex-start"
+                    gap={{ xs: 0.5, sm: 2 }}
+                    sx={{ mb: 1 }}
+                >
 
                     <Stack direction="row" alignItems="center" spacing={0.5}>
-                        <CalendarMonthRounded sx={{ fontSize: 16, color: "#38bdf8" }} />
-                        <Typography fontSize={12} color="#94a3b8">
+                        <CalendarMonthRounded sx={{ fontSize: 14, color: "#38bdf8" }} />
+
+                        <Typography fontSize={{ xs: 10, sm: 12 }} color="#94a3b8">
                             {movie.releaseInfo || movie.year || "Unknown"}
                         </Typography>
                     </Stack>
 
                     {movie.runtime && (
                         <Stack direction="row" alignItems="center" spacing={0.5}>
-                            <AccessTimeRounded sx={{ fontSize: 16, color: "#38bdf8" }} />
-                            <Typography fontSize={12} color="#94a3b8">
+                            <AccessTimeRounded sx={{ fontSize: 14, color: "#38bdf8" }} />
+
+                            <Typography fontSize={{ xs: 10, sm: 12 }} color="#94a3b8">
                                 {movie.runtime}
                             </Typography>
                         </Stack>
@@ -194,11 +207,8 @@ export default function Card({ movie, statusday }) {
 
                 </Stack>
 
-
             </CardContent>
 
-
-
-        </MuiCard >
+        </MuiCard>
     )
 }

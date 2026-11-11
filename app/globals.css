@@ -1,0 +1,41 @@
+
+@import "tailwindcss";
+
+@layer utilities {
+    .dark {
+        @apply bg-black text-white;
+    }
+
+    .light {
+        @apply bg-white text-black;
+    }
+
+    .Select {
+        background-color: rgba(56, 189, 248, 0.2);
+    }
+
+    .text10 {
+        @apply text-2xl text-purple-500;
+    }
+}
+
+@font-face {
+    font-family: "Manrope";
+    src: url("../font/Manrope/Manrope-VariableFont_wght.ttf") format("truetype");
+    font-weight: 200 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Inter";
+    src: url("../font/Inter/Inter-VariableFont_opsz,wght.ttf") format("truetype");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@theme {
+    --font-manrope: "Manrope", sans-serif;
+    --font-inter: "Inter", sans-serif;
+}

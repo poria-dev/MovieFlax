@@ -24,7 +24,26 @@ import Link from "next/link"
 
 export default function Card({ movie, statusday }) {
 
-    const [favorite, setFavorite] = useState(false)
+    const [favorite, setFavorite] = useState([])
+
+    useEffect(() => {
+        const x = JSON.parse(localStorage.getItem("setfav")) || []
+        setFavorite(x)
+    }, [])
+
+    const para = () => {
+        const saved = JSON.parse(localStorage.getItem("setfav")) || []
+
+        const exist = saved.some(item => item.imdb_id === movie.imdb_id)
+
+        const newFavorite = exist
+            ? saved.filter(item => item.imdb_id !== movie.imdb_id)
+            : [...saved, movie]
+
+        localStorage.setItem("setfav", JSON.stringify(newFavorite))
+        setFavorite(newFavorite)
+    }
+
 
     return (
         <MuiCard
@@ -112,12 +131,12 @@ export default function Card({ movie, statusday }) {
                 {/* Favorite */}
 
                 <IconButton
-                    onClick={() => setFavorite(!favorite)}
+                    onClick={para}
                     sx={{
                         position: "absolute",
                         top: 5,
                         right: 5,
-                        color: favorite ? "#fb7185" : "white",
+                        color: favorite.some(item => item.imdb_id === movie.imdb_id) ? "#fb7185" : "white",
                         background: "rgba(0,0,0,0.65)",
                         "&:hover": {
                             background: "rgba(0,0,0,0.9)"
@@ -125,7 +144,10 @@ export default function Card({ movie, statusday }) {
                     }}
                     size="small"
                 >
-                    {favorite ? <Favorite fontSize="small" /> : <FavoriteBorder fontSize="small" />}
+                    {favorite.some(item => item.imdb_id === movie.imdb_id)
+                        ? <Favorite fontSize="small" />
+                        : <FavoriteBorder fontSize="small" />
+                    }
                 </IconButton>
 
                 {/* Movie Type */}

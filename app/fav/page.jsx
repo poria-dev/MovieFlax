@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useEffect, useState } from "react"
@@ -7,30 +8,38 @@ import {
     Stack,
     Typography,
     Button,
-    Container
+    Container,
+    IconButton
 } from "@mui/material"
 import {
     FavoriteRounded,
     MovieFilterRounded,
     FavoriteBorderRounded,
-    ExploreRounded
+    ExploreRounded,
+    ArrowBackRounded
 } from "@mui/icons-material"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 export default function FavoritePage() {
 
     const [movies, setMovies] = useState([])
+    const router = useRouter()
 
     useEffect(() => {
-        const x = JSON.parse(localStorage.getItem("setfav")) || []
-        setMovies(x)
-    }, [movies])
+        try {
+            const x = JSON.parse(localStorage.getItem("setfav")) || []
+            setMovies(x)
+        } catch (error) {
+            setMovies([])
+        }
+    }, [])
 
     return (
         <Box sx={{
             minHeight: "100dvh",
             width: "100%",
-            background: "linear-gradient(145deg, #080e18 0%, #0c1728 55%, #080e18 100%)",
+            background: "linear-gradient(145deg, #102C36 0%, #183E49 35%, #7EA6AC 70%, #EAE8E1 100%)",
             color: "white",
             pb: 8,
             overflow: "hidden",
@@ -58,13 +67,30 @@ export default function FavoritePage() {
                     alignItems="center"
                     justifyContent="space-between"
                     sx={{
-                        pt: { xs: 4, md: 6 },
+                        pt: { xs: 3, md: 6 },
                         pb: 4,
                         borderBottom: "1px solid rgba(148,163,184,0.12)"
                     }}
                 >
 
                     <Stack direction="row" alignItems="center" spacing={1.5}>
+
+                        <IconButton
+                            onClick={() => router.back()}
+                            sx={{
+                                color: "white",
+                                width: 42,
+                                height: 42,
+                                borderRadius: 3,
+                                background: "rgba(148,163,184,0.10)",
+                                border: "1px solid rgba(148,163,184,0.15)",
+                                "&:hover": {
+                                    background: "rgba(56,189,248,0.15)"
+                                }
+                            }}
+                        >
+                            <ArrowBackRounded />
+                        </IconButton>
 
                         <Box sx={{
                             width: 48,
@@ -79,7 +105,7 @@ export default function FavoritePage() {
                         </Box>
 
                         <Box>
-                            <Typography fontSize={{ xs: 22, md: 30 }} fontWeight={900}>
+                            <Typography fontSize={{ xs: 20, md: 30 }} fontWeight={900}>
                                 My Favorites
                             </Typography>
                             <Typography fontSize={12} color="#94a3b8">
@@ -90,14 +116,17 @@ export default function FavoritePage() {
                     </Stack>
 
                     <Box sx={{
-                        px: 2,
-                        py: 1,
+                        px: { xs: 1.5, md: 1 },
+                        mx: 2,
                         borderRadius: 3,
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
                         background: "rgba(56,189,248,0.08)",
                         border: "1px solid rgba(56,189,248,0.18)"
                     }}>
-                        <Typography fontWeight={800} color="#38bdf8">
-                            {movies.length} Movies
+                        <Typography sx={{ textAlign: "center", }} fontWeight={800} color="#38bdf8">
+                            {movies.length} Items
                         </Typography>
                     </Box>
 
@@ -115,7 +144,7 @@ export default function FavoritePage() {
                             Saved Collection
                         </Typography>
                         <Typography fontSize={12} color="#64748b" mt={0.5}>
-                            Movies you've added to your favorites
+                            Movies and videos you've added to your favorites
                         </Typography>
                     </Box>
 
@@ -125,7 +154,7 @@ export default function FavoritePage() {
                     }} />
                 </Stack>
 
-                {/* Movies */}
+                {/* Movies and Videos */}
                 {movies.length > 0 ? (
 
                     <Box sx={{
@@ -141,9 +170,9 @@ export default function FavoritePage() {
                         alignItems: "start"
                     }}>
 
-                        {movies.map(movie => (
+                        {movies.map((movie, index) => (
                             <Card
-                                key={movie.imdb_id}
+                                key={movie.imdb_id || movie.id || index}
                                 movie={movie}
                             />
                         ))}
@@ -189,7 +218,7 @@ export default function FavoritePage() {
                             fontSize={14}
                             sx={{ mt: 1, maxWidth: 340, lineHeight: 2 }}
                         >
-                            You haven't saved any movies yet. Explore the collection and add your favorite movies here.
+                            You haven't saved any movies or videos yet. Explore the collection and add your favorites here.
                         </Typography>
 
                         <Button

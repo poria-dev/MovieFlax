@@ -4,7 +4,8 @@ import React from 'react'
 import { Stack, Typography, Button } from '@mui/material'
 import Link from 'next/link'
 
-export default function TitleMovise({ fill, status }) {
+export default function TitleMovise({ fill, status, data }) {
+
   return (
     <Stack
       direction="row"
@@ -31,7 +32,7 @@ export default function TitleMovise({ fill, status }) {
       </Typography>
 
       <Button
-        href="/"
+        href="/movies"
         sx={{
           color: "#38bdf8",
           fontWeight: "bold",

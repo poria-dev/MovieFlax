@@ -25,7 +25,7 @@ export default function CardHome({ statusday }) {
 
     return (
         <>
-            <TitleMovise fill="Adventure" status={statusday} />
+            <TitleMovise data={x} fill="Adventure" status={statusday} />
 
             <Box sx={{
                 display: "flex",

@@ -16,6 +16,7 @@ export default function page() {
   const [xx, setXx] = useState(false)
 
   useEffect(() => {
+    
     fetch("https://cinemeta-catalogs.strem.io/top/catalog/series/top.json")
       .then(res => res.json())
       .then((data) => {
